@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendario</title>
+
+    <!-- Cargar jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Cargar Moment.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+    <!-- Cargar FullCalendar -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@3.2.0/dist/fullcalendar.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@3.2.0/dist/fullcalendar.min.js"></script>
+
+    <!-- Cargar el idioma en español para FullCalendar -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@3.2.0/dist/locale/es.js"></script>
+</head>
+<body>
+    <div id="calendar"></div>
+
+    <script>
+        $(document).ready(function() {
+            $('#calendar').fullCalendar({
+                locale: 'es',  // Configura el idioma en español
+                events: '{% url "get_schedule_events" %}',  // URL para obtener los eventos
+
+                eventClick: function(event, jsEvent, view) {
+                    if (confirm("¿Deseas editar o eliminar este agendamiento?")) {
+                        window.location.href = '/edit-schedule/' + event.id;  // Redirige a la vista de edición
+                    }
+                },
+
+                editable: true, // Permitir edición de eventos
+                droppable: true, // Permitir mover eventos (si se necesita)
+            });
+        });
+    </script>
+</body>
+</html>
