@@ -17,25 +17,20 @@ class CustomLoginForm(AuthenticationForm):
         return cleaned_data
 
 class ScheduleForm(forms.ModelForm):
-    doctor = forms.ModelChoiceField(
-        queryset=User.objects.filter(role='DOCTOR'),
-        widget=forms.Select(attrs={'class': 'form-control'}),
-        label="Assigned Doctor",
-    )
-
-    auxiliar = forms.ModelChoiceField(
-        queryset=User.objects.filter(role='AUXILIAR'),
-        widget=forms.Select(attrs={'class': 'form-control'}),
-        label="Assigned Auxiliar",
-    )
-
     class Meta:
         model = Schedule
-        fields = ['doctor','auxiliar','pabellon' ,'date', 'time', 'description']
+        fields = [
+            'patient_name', 'surgeon', 'anesthetist', 'nurse', 
+            'arsenero', 'pabellonero', 'tecnico_anestesia', 
+            'pabellon', 'date', 'time', 'description'
+        ]
         widgets = {
-            'date': forms.Select(attrs={ 'class': 'form-control'}),
-            'date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
-            'time': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
-            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            'date': forms.DateInput(attrs={'type': 'date'}),
+            'time': forms.TimeInput(attrs={'type': 'time'}),
         }
 
+    def clean_pabellon(self):
+        pabellon = self.cleaned_data['pabellon']
+        if pabellon.estado != 'DESOCUPADO':
+            raise forms.ValidationError(f"El pabellón {pabellon.nombre} no está disponible.")
+        return pabellon

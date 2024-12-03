@@ -24,5 +24,11 @@ class CustomUserAdmin(UserAdmin):
 
 # Registra el modelo con la clase personalizada
 admin.site.register(User, CustomUserAdmin)
-admin.site.register(Pabellon)
+
+@admin.register(Pabellon)
+class PabellonAdmin(admin.ModelAdmin):
+    list_display = ('nombre', 'tipo', 'estado')
+    list_filter = ('tipo', 'estado')
+    search_fields = ('nombre',)
+    
 admin.site.register(Schedule)
