@@ -1,0 +1,48 @@
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh; /* Asegura que la altura sea igual a la ventana */
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    font-family: Arial, sans-serif;
+    background-color: #f0f4f8; /* Fondo suave */
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px; /* Espacio entre el formulario y la imagen */
+    width: 80%; /* Ajusta el ancho total */
+    max-width: 1200px; /* Ajusta el máximo ancho para pantallas grandes */
+}
+
+form {
+    background: white;
+    padding: 20px;
+    border-radius: 40px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px; /* Limita el tamaño del formulario */
+}
+
+h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Contenedor de la imagen */
+.image-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Estilo de la imagen */
+.side-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
