@@ -31,19 +31,12 @@ def create_schedule(request):
     if request.method == 'POST':
         form = ScheduleForm(request.POST)
         if form.is_valid():
-            # Verificar si el pabellón está desocupado antes de asignarlo
+            # Marcar el pabellón como ocupado
             pabellon = form.cleaned_data['pabellon']
-            if pabellon.estado != 'DESOCUPADO':
-                form.add_error('pabellon', 'El pabellón no está disponible')
-                return render(request, 'scheduling/create_schedule.html', {'form': form})
-
-            # Guardar el agendamiento
-            schedule = form.save()
-            # Cambiar el estado del pabellón a ocupado
             pabellon.estado = 'OCUPADO'
             pabellon.save()
-
-            return redirect('schedule_success')  # O la vista que desees
+            form.save()
+            return redirect('schedule_success')
     else:
         form = ScheduleForm()
 
@@ -76,8 +69,8 @@ def get_schedule_events(request):
             'end': end_time.strftime('%Y-%m-%dT%H:%M:%S'),
             'description': event.description,
             'id': event.id,
-            'doctor': event.doctor.username,
-            'auxiliar': event.auxiliar.username,
+            'surgeon': event.surgeon.username,
+            'anesthetist': event.anesthetist.username,
         })
 
     return JsonResponse(event_list, safe=False)
